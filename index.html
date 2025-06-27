@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ask DeepSeek Reasoner</title>
+  <title>DeepSeek Reasoner</title>
   <script src="https://js.puter.com/v2/"></script>
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
-    textarea { width: 100%; height: 100px; }
-    button { padding: 10px 20px; margin-top: 10px; }
+    body { font-family: sans-serif; max-width: 700px; margin: 2rem auto; }
+    textarea { width: 100%; height: 100px; margin-top: 10px; }
+    button { padding: 8px 15px; margin: 5px 5px 0 0; cursor: pointer; }
+    .prompt-buttons { margin-top: 10px; }
     #output { margin-top: 20px; white-space: pre-wrap; border-top: 1px solid #ccc; padding-top: 15px; }
   </style>
 </head>
 <body>
   <h2>DeepSeek Reasoner</h2>
-  <p>Ask a thoughtful question and let the model respond:</p>
-  <textarea id="userInput" placeholder="Type your question here..."></textarea>
+  <p>Choose a question or enter your own:</p>
+
+  <div class="prompt-buttons">
+    <button onclick="setPrompt('Fix this sentence for correct grammar and word order only. Keep it simple and close to the original meaning.')">Fix this sentence for correct grammar and word order only. Keep it simple and close to the original meaning.</button>
+    <button onclick="setPrompt('Please correct this sentence in simple English without adding extra words or changing the meaning too much.')">Please correct this sentence in simple English without adding extra words or changing the meaning too much.</button>
+    <button onclick="setPrompt('List pros and cons of electric vehicles')">Electric Vehicles</button>
+    <button onclick="setPrompt('Describe the potential of AI in healthcare')">AI in Healthcare</button>
+  </div>
+
+  <textarea id="userInput" placeholder="Or type your own question here..."></textarea>
   <br>
-  <button onclick="runQuery()">Ask</button>
+  <button onclick="runQuery()">Submit</button>
   <div id="output"></div>
 
   <script>
+    function setPrompt(text) {
+      document.getElementById("userInput").value = text;
+    }
+
     function runQuery() {
       const question = document.getElementById("userInput").value;
       const outputDiv = document.getElementById("output");
       outputDiv.innerText = "Thinking...";
 
       puter.ai.chat(
-        question, 
+        question,
         { model: 'deepseek-reasoner' }
       ).then(response => {
         outputDiv.innerText = response.message.content;
