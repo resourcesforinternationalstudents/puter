@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ask DeepSeek Reasoner</title>
+  <script src="https://js.puter.com/v2/"></script>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
+    textarea { width: 100%; height: 100px; }
+    button { padding: 10px 20px; margin-top: 10px; }
+    #output { margin-top: 20px; white-space: pre-wrap; border-top: 1px solid #ccc; padding-top: 15px; }
+  </style>
+</head>
+<body>
+  <h2>DeepSeek Reasoner</h2>
+  <p>Ask a thoughtful question and let the model respond:</p>
+  <textarea id="userInput" placeholder="Type your question here..."></textarea>
+  <br>
+  <button onclick="runQuery()">Ask</button>
+  <div id="output"></div>
+
+  <script>
+    function runQuery() {
+      const question = document.getElementById("userInput").value;
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerText = "Thinking...";
+
+      puter.ai.chat(
+        question, 
+        { model: 'deepseek-reasoner' }
+      ).then(response => {
+        outputDiv.innerText = response.message.content;
+      }).catch(error => {
+        outputDiv.innerText = "Oops! Something went wrong: " + error;
+      });
+    }
+  </script>
+</body>
+</html>
